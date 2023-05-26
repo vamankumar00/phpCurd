@@ -1,9 +1,10 @@
-<?php 
+<?php
 require "database.php";
 $id = $_GET["id"];
 $sql = "SELECT * FROM inventory_table Where id = $id";
 $result = $conn->query($sql);
 $row= mysqli_fetch_array($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,10 +19,9 @@ $row= mysqli_fetch_array($result);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body class="d-flex justify-content-center bg-primary">
-<form style="padding-top: 7%; padding-left: 10%;" class="form-group col-6" action="create.php" method="POST" enctype="multipart/form-data">
+<form action="delete.php" method="post" style="padding-top: 4%; padding-left: 10%;" class="form-group col-6">
     <div class="text-white bg-dark form-group col-7">
-    <input type="hidden" class="form-control" id="inventoryId" name="inventoryId" disabled readonly value="<?php echo $row["id"]; ?>">
-
+    <input type="text" class="form-control" id="inventoryId" name="id" hidden value="<?php echo $row["id"]; ?>">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="inventoryName" name="inventoryName" disabled readonly value="<?php echo $row["name"]; ?>">
@@ -40,6 +40,9 @@ $row= mysqli_fetch_array($result);
         </div>
         <div class="form-group">
             <?php echo " <img src = \" ".$row["image"]. " \" width = \"100px\" height = \"100px\">"?>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-secondary btn-lg btn-block" name="submit">Delete</button>
         </div>
         </div>
     </form>

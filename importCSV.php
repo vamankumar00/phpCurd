@@ -10,12 +10,21 @@ $fileMimes = array(
 
 $file_extension = pathinfo($_FILES["fileCSV"]["name"], PATHINFO_EXTENSION);
 
+// echo json_encode($_FILES["fileCSV"]['tmp_name']);
+// die();
 
 // Validate selected file is a CSV file or not
 if (!empty($_FILES["fileCSV"]['name']) && in_array($file_extension, $fileMimes)) {
 
     // Open uploaded CSV file with read-only mode
-    $csvFile = fopen($_FILES["fileCSV"]['tmp_name'], 'r');
+
+    if (file_exists($_FILES["fileCSV"]['tmp_name'])) {
+        $csvFile = fopen($_FILES["fileCSV"]['tmp_name'], 'r');
+    } else {
+        echo "File does not exist.";
+        die();
+    }
+
 
     // // Skip the first line
     // fgetcsv($csvFile);
@@ -23,7 +32,7 @@ if (!empty($_FILES["fileCSV"]['name']) && in_array($file_extension, $fileMimes))
     // Parse data from CSV file line by line   
     $data = " ";
     $i = 0;
-    while (($getData = fgetcsv($csvFile, 1048576, ",")) !== FALSE) {
+    while (($getData = fgetcsv($csvFile, 1050000, ",")) !== FALSE) {
         $i += 1;
 
         // Get row data

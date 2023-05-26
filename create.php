@@ -39,14 +39,14 @@ else {
             die();
         }
         else {
-            if (is_dir("images")) {
+            if (is_dir("$inventoryName")) {
                 $fileName = $_FILES['inventoryImage']['name'];
-                move_uploaded_file($_FILES['inventoryImage']['tmp_name'], "images/" . $fileName);    
+                move_uploaded_file($_FILES['inventoryImage']['tmp_name'], "$inventoryName/" . $fileName);    
             }
             else {
-                mkdir("images/");
+                mkdir("$inventoryName/");
                 $fileName = $_FILES['inventoryImage']['name'];
-                move_uploaded_file($_FILES['inventoryImage']['tmp_name'], "images/" . $fileName);    
+                move_uploaded_file($_FILES['inventoryImage']['tmp_name'], "$inventoryName/" . $fileName);    
             }
         }
       
@@ -67,7 +67,7 @@ if ($conn->connect_error) {
     die("Connection failed: "
         . $conn->connect_error);
 }
-    $fileUrl = "images/$fileName";
+    $fileUrl = "$inventoryName/$fileName";
     $sql = "INSERT INTO inventory_table (name, quantity, price, dateIn, image)
     VALUES ('$inventoryName', '$inventoryQuantity', '$inventoryPrice', '$inventoryDateIn', '$fileUrl')";
 
