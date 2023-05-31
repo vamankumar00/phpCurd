@@ -59,7 +59,7 @@ if (isset($_POST["submit"])) {
                 // header("Location: index.php");
                 die();
             } else {
-                move_uploaded_file($fileName, $targetFilePath);
+                move_uploaded_file($_FILES['inventoryImage']['tmp_name'][$key], $targetFilePath);
                 $insertValuesSQL .= "('" . $targetFilePath . "','" . $file_extension . "','" . $imageSize . "','" . $resultId . "'),";
             }
         }
