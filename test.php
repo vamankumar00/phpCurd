@@ -83,3 +83,6 @@ $result = $conn->query($sql);
                                                         }
                                                     }
                                                     ?>
+
+
+Quantity
