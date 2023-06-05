@@ -12,4 +12,8 @@ require "database.php";
         header("Location: index.php");
         die();
     }
+    else {
+        echo "Data not deleted!";
+        die();
+    }
 ?>

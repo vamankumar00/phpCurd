@@ -78,24 +78,23 @@ if ($resultForImage->num_rows > 0) {
                 <th scope="col">Image</th> -->
             </tr>
         </thead>
+        <tbody>
         <?php
         if ($result->num_rows > 0) {
 
             while ($row = $result->fetch_assoc()) {
+                $invId = $row["id"];
         ?>
-                <tbody>
                     <tr>
                         <?php echo "<td>" . $row["id"] . "</td>"; ?>
                         <?php echo "<td>" . $row["name"] . "</td>"; ?>
                         <!-- Old Code In test.php -->
                         <!-- Detial Modal Starts Here -->
-                        <!-- Large modal -->
                         <td>
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#default-details-modal-lg-center">
+                            <button type="button" onclick="detailsFun(<?= $invId?>)" id="detailButton" class="btn btn-default" data-toggle="modal" data-target="#default-details-modal-lg-center">
                                 Details
                             </button>
                         </td>
-                        <!-- Modal center Large -->
                         <div class="modal fade" id="default-details-modal-lg-center" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -106,9 +105,9 @@ if ($resultForImage->num_rows > 0) {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <h1>Quantity: <?= $row["quantity"] ?></h1>
-                                        <h1>Price: <?= $row["price"] ?></h1>
-                                        <h1>Date In: <?= $row["dateIn"] ?></h1>
+                                        <div id="details-Data">
+
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -121,10 +120,10 @@ if ($resultForImage->num_rows > 0) {
                                 </div>
                             </div>
                         </div>
-                        <!-- Detial Modal Starts Here -->
+                        <!-- Detial Modal End Here -->
                         <td>
                             <button type="button" class="btn btn-lg btn-default" data-toggle="modal" data-target="#abc-<?= $row["id"] ?>">
-                                Modal Fullscreen
+                                Images
                             </button>
                             <?php
                             if (isset($imageGetterArray['id'][$row["id"]])) {
@@ -253,5 +252,20 @@ if ($resultForImage->num_rows > 0) {
             }
         });
 
+    };
+</script>
+
+<script>
+        function detailsFun(kuchh){
+            var inventoryId = kuchh;
+            // alert(inventoryId);
+            $.ajax({
+                url : "singleProductDetails.php",
+                type : "POST",
+                data : "inventoryId="+inventoryId,
+                success : function(data){
+                    $("#details-Data").html(data);
+                }
+            });
     };
 </script>
