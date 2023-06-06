@@ -47,13 +47,12 @@ if (isset($_POST["submit"])) {
             mkdir("$resultId/");
         }
         foreach ($_FILES['inventoryImage']['name'] as $key => $val) {
-            $fileName = basename($_FILES['inventoryImage']['name'][$key]);
+            $file = basename($_FILES['inventoryImage']['name'][$key]);
+            $file_extension = pathinfo($file, PATHINFO_EXTENSION);
+            $fileName = date('YmdHis') . "$key." . $file_extension;
             $targetFilePath = "$resultId/" . $fileName;
             $imageSize = $_FILES['inventoryImage']['size'][$key];
-            // print_r($imageSize);
-            // die();
-            // Get image file extension
-            $file_extension = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
             if (!in_array($file_extension, $allowed_image_extension)) {
                 echo "Choose png, jpg, jpeg file.";
                 // header("Location: index.php");

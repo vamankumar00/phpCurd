@@ -5,59 +5,59 @@ $sql = "INSERT INTO inventory_table (name, quantity, price, dateIn, image) VALUE
 $result = $conn->query($sql);
 
 ?>
-                        <?php
-                        if ($resultForImage->num_rows > 0) {
-                            while ($row1 = $resultForImage->fetch_assoc()) {
-                                $inventoryId = $row1["inventoryId"];
-                                $imagePath = $row1["imagePath"];
-                                $imageGetterArray[$inventoryId][] = $imagePath;
-                            }
-                            for ($i = 0; $i <= count($imageGetterArray); $i++) {
+<?php
+if ($resultForImage->num_rows > 0) {
+    while ($row1 = $resultForImage->fetch_assoc()) {
+        $inventoryId = $row1["inventoryId"];
+        $imagePath = $row1["imagePath"];
+        $imageGetterArray[$inventoryId][] = $imagePath;
+    }
+    for ($i = 0; $i <= count($imageGetterArray); $i++) {
 
-                                if (isset($imageGetterArray[$row["id"]][$i])) {
-                                    if ($imageGetterArray[$row["id"]][$i] == "") {
-                                        break;
-                                    } else {
-                                        echo '<td>
+        if (isset($imageGetterArray[$row["id"]][$i])) {
+            if ($imageGetterArray[$row["id"]][$i] == "") {
+                break;
+            } else {
+                echo '<td>
                                         <img class="d-block w-100" src="' . $imageGetterArray[$row["id"]][$i] . '" width="50px" height="30px">
                                         </td>';
-                                    }
-                                }
+            }
+        }
 
-                                // echo $imageGetterArray[$row["id"]][$i];
-                            }
-                        }
-                        ?>
+        // echo $imageGetterArray[$row["id"]][$i];
+    }
+}
+?>
 
 
 
-                        <?php
-                        if (isset($imageGetterArray[$inventoryId])) {
-                            for ($i = 0; $i <= count($imageGetterArray); $i++) {
-                                if (!isset($imageGetterArray[$row["id"]][$i])) {
-                                    break;
-                                } else {
-                                    echo '<td>
+<?php
+if (isset($imageGetterArray[$inventoryId])) {
+    for ($i = 0; $i <= count($imageGetterArray); $i++) {
+        if (!isset($imageGetterArray[$row["id"]][$i])) {
+            break;
+        } else {
+            echo '<td>
                                         <img class="d-block w-100" src="' . $imageGetterArray[$row["id"]][$i] . '" width="50px" height="30px">
                                         </td>';
-                                }
-                            }
+        }
+    }
 
-                            // echo $imageGetterArray[$row["id"]][$i];
-                        }
-                        ?>
+    // echo $imageGetterArray[$row["id"]][$i];
+}
+?>
 
 
 
-                            <?php
-                            $sqlForImage = "SELECT imagePath FROM inventory_image_table WHERE inventoryId = " . $row["id"] . "";
-                            $resultForImage = $conn->query($sqlForImage);
+<?php
+$sqlForImage = "SELECT imagePath FROM inventory_image_table WHERE inventoryId = " . $row["id"] . "";
+$resultForImage = $conn->query($sqlForImage);
 
-                            if ($resultForImage->num_rows > 0) {
-                                // output data of each row        
-                                // $nu = 1;
-                                while ($row1 = $resultForImage->fetch_assoc()) {
-                                    echo '<div class="carousel-item active">
+if ($resultForImage->num_rows > 0) {
+    // output data of each row        
+    // $nu = 1;
+    while ($row1 = $resultForImage->fetch_assoc()) {
+        echo '<div class="carousel-item active">
                                     <h1></h1>
                                     <img class="d-block w-100" src="' . $row1["imagePath"] . '" alt="Second slide" />
                                     <div class="carousel-caption d-none d-md-block">
@@ -70,19 +70,52 @@ $result = $conn->query($sql);
                                     </p>
                                     </div>
                                     </div>';
-                                }
-                            }
-                            ?>
+    }
+}
+?>
 
-                                                    <?php
-                                                    if (isset($imageGetterArray[$row["id"]])) {
-                                                        for ($i = 0; $i < count($imageGetterArray[$row["id"]]); $i++) {
-                                                            echo '<td>
+<?php
+if (isset($imageGetterArray[$row["id"]])) {
+    for ($i = 0; $i < count($imageGetterArray[$row["id"]]); $i++) {
+        echo '<td>
                                         <img class="d-block w-100" src="' . $imageGetterArray[$row["id"]][$i] . '" width="50px" height="30px">
                                         </td>';
-                                                        }
-                                                    }
-                                                    ?>
+    }
+}
+?>
 
 
-Quantity
+Quantit
+
+
+if (empty($fileNames)) {
+echo "Hi";
+die();
+} else {
+// $fileinfo = @getimagesize($_FILES["inventoryImage"]["tmp_name"]);
+$allowed_image_extension = array(
+"png",
+"jpg",
+"jpeg"
+);
+} // -------------image End
+
+// $fileUrl = "$inventoryName/$fileName";
+if ($result === TRUE) {
+$resultId = mysqli_insert_id($conn);
+$fileName = basename($_FILES['inventoryImage']['name']);
+$targetFilePath = "$resultId/" . $fileName;
+$imageSize = $_FILES['inventoryImage']['size'];
+$file_extension = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+if (!in_array($file_extension, $allowed_image_extension)) {
+echo "Choose png, jpg, jpeg file.";
+die();
+} else {
+move_uploaded_file($_FILES['inventoryImage']['tmp_name'][$key], $targetFilePath);
+$insertValuesSQL .= "('" . $targetFilePath . "','" . $file_extension . "','" . $imageSize . "','" . $resultId . "'),";
+}
+
+} else {
+echo "Error 2";
+}
+}

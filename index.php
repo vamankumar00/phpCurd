@@ -242,7 +242,7 @@ if ($resultForImage->num_rows > 0) {
 
         $.ajax({
             type: "POST",
-            url: "deleteImage.php",
+            url: "deleteSingleImage.php",
             data: "id=" + id + "&path=" + path,
         }).done(function(res) {
             if (res == "Delete Successfully") {
