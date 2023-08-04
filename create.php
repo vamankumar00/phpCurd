@@ -1,7 +1,6 @@
 <?php
 require "database.php";
 
-// print_r($_REQUEST);
 
 if (isset($_POST["submit"])) {
     $inventoryName = $_POST['inventoryName'];
