@@ -15,7 +15,9 @@ $initial_page = ($page_number - 1) * $limit;
 $getQuery = "SELECT *FROM inventory_table LIMIT " . $initial_page . ',' . $limit;
 $result = $conn->query($getQuery);
 $sqlInventory = "SELECT imageId, imagePath, inventoryId FROM inventory_image_table";
+
 $resultForImage = $conn->query($sqlInventory);
+// die(mysqli_error($conn));
 
 $imageGetterArray = array();
 // $imageIdGetterArray = array();
@@ -79,19 +81,19 @@ if ($resultForImage->num_rows > 0) {
             </tr>
         </thead>
         <tbody>
-        <?php
-        if ($result->num_rows > 0) {
+            <?php
+            if ($result->num_rows > 0) {
 
-            while ($row = $result->fetch_assoc()) {
-                $invId = $row["id"];
-        ?>
+                while ($row = $result->fetch_assoc()) {
+                    $invId = $row["id"];
+            ?>
                     <tr>
                         <?php echo "<td>" . $row["id"] . "</td>"; ?>
                         <?php echo "<td>" . $row["name"] . "</td>"; ?>
                         <!-- Old Code In test.php -->
                         <!-- Detial Modal Starts Here -->
                         <td>
-                            <button type="button" onclick="detailsFun(<?= $invId?>)" id="detailButton" class="btn btn-default" data-toggle="modal" data-target="#default-details-modal-lg-center">
+                            <button type="button" onclick="detailsFun(<?= $invId ?>)" id="detailButton" class="btn btn-default" data-toggle="modal" data-target="#default-details-modal-lg-center">
                                 Details
                             </button>
                         </td>
@@ -199,10 +201,10 @@ if ($resultForImage->num_rows > 0) {
                     <a href=\"delete.php?id=" . $row["id"] . "\"> Delete </a> </td>" ?>
                     </tr>
             <?php
+                }
             }
-        }
             ?>
-                </tbody>
+        </tbody>
     </table>
 
     <nav aria-label="Page navigation example">
@@ -256,16 +258,16 @@ if ($resultForImage->num_rows > 0) {
 </script>
 
 <script>
-        function detailsFun(kuchh){
-            var inventoryId = kuchh;
-            // alert(inventoryId);
-            $.ajax({
-                url : "singleProductDetails.php",
-                type : "POST",
-                data : "inventoryId="+inventoryId,
-                success : function(data){
-                    $("#details-Data").html(data);
-                }
-            });
+    function detailsFun(kuchh) {
+        var inventoryId = kuchh;
+        // alert(inventoryId);
+        $.ajax({
+            url: "singleProductDetails.php",
+            type: "POST",
+            data: "inventoryId=" + inventoryId,
+            success: function(data) {
+                $("#details-Data").html(data);
+            }
+        });
     };
 </script>
